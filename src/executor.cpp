@@ -1,7 +1,8 @@
 #include "lift/executor.hpp"
 #include "lift/client.hpp"
 #include "lift/init.hpp"
-
+//#include "../../../log/Log.h"
+#include <iostream>
 namespace lift
 {
 auto curl_write_header(char* buffer, size_t size, size_t nitems, void* user_ptr) -> size_t;
@@ -51,6 +52,7 @@ auto executor::perform() -> response
 
     auto curl_error_code     = curl_easy_perform(m_curl_handle);
     m_response.m_lift_status = convert(curl_error_code);
+    m_response.m_last_error  = curl_error_code;
     copy_curl_to_response();
 
     global_cleanup();
@@ -454,7 +456,7 @@ auto executor::reset() -> void
     curl_easy_reset(m_curl_handle);
 }
 
-auto executor::convert(CURLcode curl_code) -> lift_status
+auto executor::convert(CURLcode curl_code) -> lift::lift_status
 {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch-enum"
@@ -529,7 +531,6 @@ auto curl_write_data(void* buffer, size_t size, size_t nitems, void* user_ptr) -
         static_cast<const char*>(buffer),
         static_cast<const char*>(buffer) + data_length,
         std::back_inserter(response.m_data));
-
     return data_length;
 }
 

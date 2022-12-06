@@ -34,15 +34,16 @@ class executor
     friend request;
 
 public:
-    executor(const executor&) = delete;
-    executor(executor&&)      = delete;
+    executor(const executor&)                    = delete;
+    executor(executor&&)                         = delete;
     auto operator=(const executor&) -> executor& = delete;
-    auto operator=(executor&&) -> executor& = delete;
+    auto operator=(executor&&) -> executor&      = delete;
     ~executor();
 
 private:
     /// The curl handle to execute against.
     CURL* m_curl_handle{curl_easy_init()};
+
     /// The mime handle if present.
     curl_mime* m_mime_handle{nullptr};
     /// The HTTP curl request headers.

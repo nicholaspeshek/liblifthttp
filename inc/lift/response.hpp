@@ -27,10 +27,10 @@ public:
     response();
     ~response() = default;
 
-    response(const response&) = default;
-    response(response&&)      = default;
+    response(const response&)                             = default;
+    response(response&&)                                  = default;
     auto operator=(const response&) noexcept -> response& = default;
-    auto operator=(response&&) noexcept -> response& = default;
+    auto operator=(response&&) noexcept -> response&      = default;
 
     /**
      * The Lift status is how the request ended up in the event loop.
@@ -51,6 +51,11 @@ public:
      * @return The HTTP response status code.
      */
     [[nodiscard]] auto status_code() const -> http::status_code { return m_status_code; }
+
+    /**
+     * @return The CURL HTTP response status code.
+     */
+    [[nodiscard]] auto curl_status_code() const -> CURLcode { return m_last_error; }
 
     /**
      * @return The HTTP response headers.
@@ -110,6 +115,8 @@ private:
     uint8_t m_num_connects{0};
     /// The number of redirects traversed while processing the request.
     uint8_t m_num_redirects{0};
+
+    CURLcode m_last_error{CURLcode::CURLE_OK};
 
     /// libcurl will call this function when a header is received for the HTTP request.
     friend auto curl_write_header(char* buffer, size_t size, size_t nitems, void* user_ptr) -> size_t;
