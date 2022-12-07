@@ -27,10 +27,10 @@ public:
 
     ~curl_context() = default;
 
-    curl_context(const curl_context&) = delete;
-    curl_context(curl_context&&)      = delete;
+    curl_context(const curl_context&)                             = delete;
+    curl_context(curl_context&&)                                  = delete;
     auto operator=(const curl_context&) noexcept -> curl_context& = delete;
-    auto operator=(curl_context&&) noexcept -> curl_context& = delete;
+    auto operator=(curl_context&&) noexcept -> curl_context&      = delete;
 
     auto init(uv_loop_t* uv_loop, curl_socket_t sock_fd) -> void
     {
@@ -261,8 +261,7 @@ auto client::complete_request_timeout(executor& exe) -> void
     // Call on complete if it exists and hasn't been called before.
     if (exe.m_on_complete_callback_called == false && on_complete_handler != nullptr)
     {
-        exe.m_on_complete_callback_called = true;
-        exe.m_response.m_lift_status      = lift::lift_status::timeout;
+        exe.m_response.m_lift_status = lift::lift_status::timeout;
         exe.set_timesup_response(exe.m_request->timeout().value());
 
         // Removing the timesup is done in the uv timesup callback so it can prune
@@ -279,6 +278,7 @@ auto client::complete_request_timeout(executor& exe) -> void
         auto copy_ptr = std::make_unique<request>(*exe.m_request_async);
 
         on_complete_handler(std::move(copy_ptr), std::move(exe.m_response));
+        exe.m_on_complete_callback_called = true;
     }
 
     // Lift timeouts do not trigger an active request count drop.

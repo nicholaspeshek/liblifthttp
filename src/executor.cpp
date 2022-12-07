@@ -1,8 +1,7 @@
 #include "lift/executor.hpp"
 #include "lift/client.hpp"
 #include "lift/init.hpp"
-//#include "../../../log/Log.h"
-#include <iostream>
+
 namespace lift
 {
 auto curl_write_header(char* buffer, size_t size, size_t nitems, void* user_ptr) -> size_t;
@@ -68,7 +67,6 @@ auto executor::prepare() -> void
     curl_easy_setopt(m_curl_handle, CURLOPT_WRITEFUNCTION, curl_write_data);
     curl_easy_setopt(m_curl_handle, CURLOPT_WRITEDATA, this);
     curl_easy_setopt(m_curl_handle, CURLOPT_NOSIGNAL, 1L);
-
     curl_easy_setopt(m_curl_handle, CURLOPT_URL, m_request->url().c_str());
 
     switch (m_request->method())
@@ -449,7 +447,7 @@ auto executor::reset() -> void
     m_timeout_iterator.reset();
     m_on_complete_callback_called = false;
     m_response                    = response{};
-
+    m_response.m_last_error       = CURLE_OBSOLETE51;
     curl_easy_setopt(m_curl_handle, CURLOPT_SHARE, nullptr);
     m_curl_share_handle = nullptr;
 

@@ -116,7 +116,7 @@ private:
     /// The number of redirects traversed while processing the request.
     uint8_t m_num_redirects{0};
 
-    CURLcode m_last_error{CURLcode::CURLE_OK};
+    CURLcode m_last_error{CURLcode::CURLE_OBSOLETE50};
 
     /// libcurl will call this function when a header is received for the HTTP request.
     friend auto curl_write_header(char* buffer, size_t size, size_t nitems, void* user_ptr) -> size_t;
