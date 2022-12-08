@@ -18,7 +18,7 @@ TEST_CASE("proxy")
     {
         if (header.name() == "server")
         {
-            REQUIRE(header.value() == "nginx/1.18.0");
+            REQUIRE(header.value() == "nginx/1.22.1");
         }
         else if (header.name() == "content-length")
         {
