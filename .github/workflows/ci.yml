@@ -33,6 +33,7 @@ jobs:
                         clang-9 \
                         zlib1g-dev \
                         libcurl4-openssl-dev \
+                        libssl-dev \
                         libuv1-dev \
                         curl \
                         wget
@@ -104,6 +105,7 @@ jobs:
                         lcov \
                         zlib-devel \
                         libcurl-devel \
+                        openssl-devel \
                         libuv-devel \
                         iputils \
                         curl \
