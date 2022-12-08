@@ -34,7 +34,8 @@ jobs:
                         zlib1g-dev \
                         libcurl4-openssl-dev \
                         libuv1-dev \
-                        curl
+                        curl \
+                        wget
             -   name: check-haproxy
                 run: |
                     curl -v --user guest:guestpassword -x "http://haproxy:3128" "http://nginx/index.html"
@@ -105,7 +106,8 @@ jobs:
                         libcurl-devel \
                         libuv-devel \
                         iputils \
-                        curl
+                        curl \
+                        wget
             -   name: ping
                 run: |
                     ping -c1 nginx
