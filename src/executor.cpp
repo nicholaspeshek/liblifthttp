@@ -142,6 +142,10 @@ auto executor::prepare() -> void
         }
     }
 
+    // Add a max lifetime for connections and time them out a little faster so we get better goodput.
+    curl_easy_setopt(m_curl_handle, CURLOPT_MAXAGE_CONN, 28L);
+    curl_easy_setopt(m_curl_handle, CURLOPT_MAXLIFETIME_CONN, 600L);
+    
     // Connection timeout is handled when injecting into the CURLM* event loop for asynchronous requests.
 
     if (m_request->follow_redirects())
