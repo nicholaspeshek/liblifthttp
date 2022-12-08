@@ -38,6 +38,17 @@ jobs:
             -   name: check-haproxy
                 run: |
                     curl -v --user guest:guestpassword -x "http://haproxy:3128" "http://nginx/index.html"
+            -   name: build-libcurl
+                run: |
+                    # We have to custom build libcurl because we need a new configuration option.
+                    # Stolen from jbaldwin's upstream
+                    wget https://github.com/curl/curl/releases/download/curl-7_86_0/curl-7.86.0.tar.gz
+                    gunzip curl-7.86.0.tar.gz
+                    tar -xf curl-7.86.0.tar
+                    cd curl-7.86.0/
+                    ./configure --with-openssl
+                    make -j $(nproc)
+                    make install
             -   name: build-release-g++
                 run: |
                     mkdir build-release-g++
@@ -101,6 +112,17 @@ jobs:
             -   name: check-haproxy
                 run: |
                     curl -v --user guest:guestpassword -x "http://haproxy:3128" "http://nginx/index.html"
+            -   name: build-libcurl
+                run: |
+                    # We have to custom build libcurl because we need a new configuration option.
+                    # Stolen from jbaldwin's upstream
+                    wget https://github.com/curl/curl/releases/download/curl-7_86_0/curl-7.86.0.tar.gz
+                    gunzip curl-7.86.0.tar.gz
+                    tar -xf curl-7.86.0.tar
+                    cd curl-7.86.0/
+                    ./configure --with-openssl
+                    make -j $(nproc)
+                    make install
             -   name: build-debug-g++
                 run: |
                     mkdir build-debug-g++
